@@ -16,6 +16,19 @@ jobs:
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install ecs-deploy
+      - run:
+          name: Install dependencies
+          command: |
+            ecs deploy $ECS_CLUSTER_NAME $ECS_SERVICE --image website-service trambocloud/nginx:$CIRCLE_SHA1 --timeout 1200 --ignore-warnings --region $AWS_REGION
 orbs:
   docker: circleci/docker@1.4.0
 workflows:
@@ -23,3 +36,6 @@ workflows:
   test:
     jobs:
       - build-and-push
+      - deploy:
+          requires:
+            - build-and-push
