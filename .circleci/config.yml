@@ -8,6 +8,7 @@ jobs:
       - docker/check
       - docker/build:
           image: trambocloud/nginx
+          tag: "latest,$CIRCLE_SHA1"
       - docker/push:
           digest-path: /tmp/digest.txt
           image: trambocloud/nginx
