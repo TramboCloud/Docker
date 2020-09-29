@@ -16,6 +16,7 @@ jobs:
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
+            echo "hello world!!!"
   deploy:
     docker:
       - image: circleci/python:3.7
